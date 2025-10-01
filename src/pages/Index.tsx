@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import Icon from '@/components/ui/icon';
 import { useToast } from '@/hooks/use-toast';
 
@@ -10,49 +11,15 @@ const Index = () => {
   const { toast } = useToast();
   const [formData, setFormData] = useState({
     name: '',
+    email: '',
     phone: '',
-    product: ''
+    message: ''
   });
-
-  const products = [
-    {
-      id: 1,
-      name: 'Synthetic 5W-30',
-      price: '1 200 ₽',
-      viscosity: '5W-30',
-      type: 'Синтетическое',
-      volume: '4л'
-    },
-    {
-      id: 2,
-      name: 'Semi-Synthetic 10W-40',
-      price: '850 ₽',
-      viscosity: '10W-40',
-      type: 'Полусинтетическое',
-      volume: '4л'
-    },
-    {
-      id: 3,
-      name: 'Mineral 15W-40',
-      price: '600 ₽',
-      viscosity: '15W-40',
-      type: 'Минеральное',
-      volume: '4л'
-    },
-    {
-      id: 4,
-      name: 'Full Synthetic 0W-20',
-      price: '1 500 ₽',
-      viscosity: '0W-20',
-      type: 'Синтетическое',
-      volume: '4л'
-    }
-  ];
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.name || !formData.phone) {
+    if (!formData.name || !formData.email || !formData.phone) {
       toast({
         title: "Ошибка",
         description: "Заполните все обязательные поля",
@@ -66,211 +33,170 @@ const Index = () => {
       description: "Мы свяжемся с вами в ближайшее время",
     });
 
-    setFormData({ name: '', phone: '', product: '' });
+    setFormData({ name: '', email: '', phone: '', message: '' });
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <header className="border-b border-border">
+    <div className="min-h-screen bg-gradient-to-br from-background via-secondary/20 to-background">
+      <header className="border-b border-border bg-background/80 backdrop-blur-sm">
         <div className="container mx-auto px-4 py-6">
           <div className="flex items-center justify-between">
-            <h1 className="text-3xl font-bold text-foreground">Motor Oil Store</h1>
-            <a href="#order" className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+                <Icon name="ClipboardList" size={24} className="text-primary-foreground" />
+              </div>
+              <h1 className="text-2xl font-bold text-foreground">Приём заявок</h1>
+            </div>
+            <a href="#form" className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors">
               <Icon name="Phone" size={20} />
-              <span className="font-medium">+7 (800) 555-35-35</span>
+              <span className="font-medium hidden sm:inline">+7 (800) 555-00-00</span>
             </a>
           </div>
         </div>
       </header>
 
-      <section className="py-20 bg-gradient-to-b from-secondary/30 to-background">
+      <section className="py-20">
         <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center animate-fade-in">
+          <div className="max-w-4xl mx-auto text-center mb-16 animate-fade-in">
             <h2 className="text-5xl font-bold mb-6 text-foreground">
-              Качественные моторные масла
+              Оставьте заявку
             </h2>
-            <p className="text-xl text-muted-foreground mb-8">
-              Профессиональные решения для вашего автомобиля. Доставка по всей России.
+            <p className="text-xl text-muted-foreground">
+              Заполните форму ниже и наш специалист свяжется с вами в течение 15 минут
             </p>
-            <Button size="lg" className="text-lg px-8" asChild>
-              <a href="#order">
-                Оставить заявку
-                <Icon name="ArrowRight" size={20} className="ml-2" />
-              </a>
-            </Button>
           </div>
-        </div>
-      </section>
 
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <h3 className="text-3xl font-bold text-center mb-12 text-foreground">
-            Каталог продукции
-          </h3>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
-            {products.map((product, index) => (
-              <Card 
-                key={product.id} 
-                className="p-6 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 animate-slide-up"
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
-                <div className="aspect-square bg-secondary/30 rounded-lg mb-4 flex items-center justify-center">
-                  <Icon name="Droplet" size={48} className="text-primary" />
-                </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
+            <div id="form" className="animate-slide-up">
+              <Card className="p-8 shadow-xl">
+                <h3 className="text-2xl font-bold mb-6 text-foreground">Форма обратной связи</h3>
                 
-                <h4 className="font-semibold text-lg mb-2 text-foreground">{product.name}</h4>
-                
-                <div className="space-y-1 text-sm text-muted-foreground mb-4">
-                  <p>Вязкость: {product.viscosity}</p>
-                  <p>Тип: {product.type}</p>
-                  <p>Объём: {product.volume}</p>
-                </div>
-                
-                <div className="flex items-center justify-between">
-                  <span className="text-2xl font-bold text-primary">{product.price}</span>
-                  <Button 
-                    size="sm"
-                    onClick={() => {
-                      setFormData({ ...formData, product: product.name });
-                      document.getElementById('order')?.scrollIntoView({ behavior: 'smooth' });
-                    }}
-                  >
-                    Заказать
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div className="space-y-2">
+                    <Label htmlFor="name">Ваше имя *</Label>
+                    <Input
+                      id="name"
+                      placeholder="Иван Иванов"
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      required
+                      className="h-12"
+                    />
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="email">Email *</Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="example@mail.ru"
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      required
+                      className="h-12"
+                    />
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="phone">Телефон *</Label>
+                    <Input
+                      id="phone"
+                      type="tel"
+                      placeholder="+7 (___) ___-__-__"
+                      value={formData.phone}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      required
+                      className="h-12"
+                    />
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="message">Сообщение</Label>
+                    <Textarea
+                      id="message"
+                      placeholder="Расскажите, чем мы можем вам помочь..."
+                      value={formData.message}
+                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                      rows={5}
+                      className="resize-none"
+                    />
+                  </div>
+                  
+                  <Button type="submit" className="w-full h-12 text-lg" size="lg">
+                    Отправить заявку
+                    <Icon name="Send" size={20} className="ml-2" />
                   </Button>
+                </form>
+              </Card>
+            </div>
+
+            <div className="space-y-6 animate-slide-up" style={{ animationDelay: '100ms' }}>
+              <Card className="p-8 bg-primary/5 border-primary/20">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                    <Icon name="Clock" size={24} className="text-primary" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-lg mb-2">Быстрая обработка</h4>
+                    <p className="text-muted-foreground">Мы обрабатываем заявки в течение 15 минут в рабочее время</p>
+                  </div>
                 </div>
               </Card>
-            ))}
+
+              <Card className="p-8 bg-primary/5 border-primary/20">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                    <Icon name="Shield" size={24} className="text-primary" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-lg mb-2">Конфиденциальность</h4>
+                    <p className="text-muted-foreground">Ваши данные защищены и не передаются третьим лицам</p>
+                  </div>
+                </div>
+              </Card>
+
+              <Card className="p-8 bg-primary/5 border-primary/20">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                    <Icon name="HeadphonesIcon" size={24} className="text-primary" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-lg mb-2">Поддержка 24/7</h4>
+                    <p className="text-muted-foreground">Готовы помочь вам в любое время суток</p>
+                  </div>
+                </div>
+              </Card>
+
+              <Card className="p-8 border-2 border-primary">
+                <h4 className="font-bold text-lg mb-4 text-foreground">Контактная информация</h4>
+                <div className="space-y-3 text-muted-foreground">
+                  <div className="flex items-center gap-3">
+                    <Icon name="Phone" size={20} className="text-primary" />
+                    <span>+7 (800) 555-00-00</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Icon name="Mail" size={20} className="text-primary" />
+                    <span>info@example.com</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Icon name="MapPin" size={20} className="text-primary" />
+                    <span>Москва, Россия</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Icon name="Clock" size={20} className="text-primary" />
+                    <span>Пн-Вс: 9:00 - 21:00</span>
+                  </div>
+                </div>
+              </Card>
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="py-16 bg-secondary/30">
+      <footer className="border-t border-border py-8 bg-background/80 backdrop-blur-sm mt-20">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <div className="text-center animate-fade-in">
-              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Icon name="Award" size={32} className="text-primary" />
-              </div>
-              <h4 className="font-semibold text-lg mb-2">Качество</h4>
-              <p className="text-muted-foreground">Только сертифицированная продукция от проверенных производителей</p>
-            </div>
-            
-            <div className="text-center animate-fade-in" style={{ animationDelay: '100ms' }}>
-              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Icon name="Truck" size={32} className="text-primary" />
-              </div>
-              <h4 className="font-semibold text-lg mb-2">Доставка</h4>
-              <p className="text-muted-foreground">Быстрая доставка по всей России в течение 1-3 дней</p>
-            </div>
-            
-            <div className="text-center animate-fade-in" style={{ animationDelay: '200ms' }}>
-              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Icon name="HeadphonesIcon" size={32} className="text-primary" />
-              </div>
-              <h4 className="font-semibold text-lg mb-2">Поддержка</h4>
-              <p className="text-muted-foreground">Консультация специалистов и помощь в выборе масла</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="order" className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="max-w-xl mx-auto">
-            <h3 className="text-3xl font-bold text-center mb-4 text-foreground">
-              Оставьте заявку
-            </h3>
-            <p className="text-center text-muted-foreground mb-8">
-              Заполните форму и наш менеджер свяжется с вами в течение 5 минут
-            </p>
-            
-            <Card className="p-8">
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="space-y-2">
-                  <Label htmlFor="name">Ваше имя *</Label>
-                  <Input
-                    id="name"
-                    placeholder="Иван Иванов"
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    required
-                  />
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="phone">Телефон *</Label>
-                  <Input
-                    id="phone"
-                    type="tel"
-                    placeholder="+7 (___) ___-__-__"
-                    value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    required
-                  />
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="product">Интересующий товар</Label>
-                  <Input
-                    id="product"
-                    placeholder="Например: Synthetic 5W-30"
-                    value={formData.product}
-                    onChange={(e) => setFormData({ ...formData, product: e.target.value })}
-                  />
-                </div>
-                
-                <Button type="submit" className="w-full" size="lg">
-                  Отправить заявку
-                  <Icon name="Send" size={18} className="ml-2" />
-                </Button>
-              </form>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      <footer className="border-t border-border py-12 bg-secondary/20">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <div>
-              <h4 className="font-bold text-lg mb-4">Motor Oil Store</h4>
-              <p className="text-muted-foreground text-sm">
-                Профессиональные моторные масла для вашего автомобиля
-              </p>
-            </div>
-            
-            <div>
-              <h4 className="font-bold text-lg mb-4">Контакты</h4>
-              <div className="space-y-2 text-sm text-muted-foreground">
-                <p className="flex items-center gap-2">
-                  <Icon name="Phone" size={16} />
-                  +7 (800) 555-35-35
-                </p>
-                <p className="flex items-center gap-2">
-                  <Icon name="Mail" size={16} />
-                  info@motoroil.store
-                </p>
-                <p className="flex items-center gap-2">
-                  <Icon name="MapPin" size={16} />
-                  Москва, ул. Примерная, д. 1
-                </p>
-              </div>
-            </div>
-            
-            <div>
-              <h4 className="font-bold text-lg mb-4">Режим работы</h4>
-              <div className="space-y-2 text-sm text-muted-foreground">
-                <p>Пн-Пт: 9:00 - 20:00</p>
-                <p>Сб-Вс: 10:00 - 18:00</p>
-              </div>
-            </div>
-          </div>
-          
-          <div className="text-center mt-8 pt-8 border-t border-border">
-            <p className="text-sm text-muted-foreground">
-              © 2025 Motor Oil Store. Все права защищены.
-            </p>
+          <div className="text-center text-sm text-muted-foreground">
+            <p>© 2025 Приём заявок. Все права защищены.</p>
           </div>
         </div>
       </footer>
